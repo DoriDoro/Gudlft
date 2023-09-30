@@ -71,6 +71,13 @@ def book(competition, club):
 
 @app.route("/purchase-places", methods=["POST"])
 def purchase_places():
+    """
+    checks if the secretary is trying to book:
+        - more than 12 places at once
+        - more places than available
+        - more places than she can book
+    """
+
     competition = [c for c in competitions if c["name"] == request.form["competition"]][
         0
     ]
@@ -92,12 +99,15 @@ def purchase_places():
         return render_template("booking.html", club=club, competition=competition)
 
 
-# TODO: Add route for points display
 @app.route("/dashboard")
 def dashboard():
+    """display the points of the clubs"""
+
     return render_template("dashboard.html", clubs=clubs)
 
 
 @app.route("/logout")
 def logout():
+    """logs user out"""
+
     return redirect(url_for("index"))
