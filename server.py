@@ -4,10 +4,6 @@ from datetime import datetime
 from flask import Flask, render_template, request, redirect, flash, url_for
 
 
-app = Flask(__name__)
-app.secret_key = "something_special"
-
-
 def load_clubs():
     with open("clubs.json") as c:
         list_of_clubs = json.load(c)["clubs"]
@@ -19,6 +15,9 @@ def load_competitions():
         list_of_competitions = json.load(comps)["competitions"]
         return list_of_competitions
 
+
+app = Flask(__name__)
+app.secret_key = "something_special"
 
 competitions = load_competitions()
 clubs = load_clubs()
@@ -111,3 +110,7 @@ def logout():
     """logs user out"""
 
     return redirect(url_for("index"))
+
+
+if __name__ == "__main__":
+    app.run()

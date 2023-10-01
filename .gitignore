@@ -1,11 +1,3 @@
-bin
-include
-lib
-.Python
-tests/
-.envrc
-__pycache__
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -32,3 +24,4 @@ venv.bak/
 
 .idea/
 .vercel
+.pytest_cache
