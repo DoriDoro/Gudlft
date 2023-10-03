@@ -47,7 +47,8 @@ def show_summary():
 
 @app.route("/book/<competition>/<club>")
 def book(competition, club):
-    """renders the chosen competition to book a place"""
+    """renders the chosen and valid competition to book a place
+    if invalid competition error"""
 
     today = datetime.now().replace(microsecond=0)
     found_club = [c for c in clubs if c["name"] == club][0]
@@ -59,13 +60,9 @@ def book(competition, club):
         )
     else:
         flash("Sorry, but this competition is already over!")
-        # return redirect(url_for("purchase_places"))
-        return render_template("welcome.html", club=club, competitions=competitions)
-        # http://127.0.0.1:5000/book/Fall Classic/Simply Lift
-
-    # else:
-    #      flash("Something went wrong-please try again")
-    #      return render_template("welcome.html", club=club, competitions=competitions)
+        return render_template(
+            "welcome.html", club=found_club, competitions=competitions
+        )
 
 
 @app.route("/purchase-places", methods=["POST"])
