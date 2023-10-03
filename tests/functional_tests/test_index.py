@@ -4,15 +4,12 @@ This file test_index.py contains the functional tests for the route index
 from server import app
 
 
-def test_index():
+def test_index(test_app):
     """
     GIVEN a Flask app for testing
     WHEN the '/' page is requested (GET)
     THEN check if response is valid
     """
-
-    test_app = app
-    test_app.config["TESTING"] = True  # set the app to testing mode
 
     with test_app.test_client() as test_client:
         response = test_client.get("/")
