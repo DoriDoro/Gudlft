@@ -6,6 +6,13 @@ from server import app
 
 
 @pytest.fixture
+def test_app():
+    t_app = app
+    t_app.config["TESTING"] = True
+    return t_app
+
+
+@pytest.fixture
 def test_client():
     """This fixture/helper sets a test_client for the app"""
 

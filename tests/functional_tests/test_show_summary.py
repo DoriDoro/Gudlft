@@ -6,19 +6,31 @@ This file test_show_summary.py contains the functional tests for the route show_
 """
 
 
-def test_show_summary_login(test_client, clubs_fixture):
+def test_show_summary_successful_login(test_app):
     """
     GIVEN a Flask app for testing
     WHEN the '/show-summary' page is requested (POST)
     THEN check if response is valid
     """
 
-    club_email = clubs_fixture[0]["email"]
+    with test_app.test_client() as test_client:
+        response = test_client.post(
+            "/show-summary", data={"email": "john@simplylift.co"}
+        )
+        assert response.status_code == 200
+        assert b"Welcome, john@simplylift.co"
 
-    response = test_client.get("/show-summary")
-    assert response.status_code == 200
 
+def test_show_summary_failed_login(test_app):
+    """
+    GIVEN a Flask app for testing
+    WHEN the '/show-summary' page is requested (POST)
+    THEN check if response is valid but with wrong email address
+    """
 
-# def test_show_summary_():
-
-# def test_show_summary_():
+    with test_app.test_client() as test_client:
+        response = test_client.post(
+            "/show-summary", data={"email": "john@simplylift.c"}
+        )
+        assert response.status_code == 200
+        assert b"Welcome to the GUDLFT Registration Portal!" in response.data
