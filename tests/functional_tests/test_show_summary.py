@@ -6,7 +6,7 @@ This file test_show_summary.py contains the functional tests for the route show_
 """
 
 
-def test_show_summary_successful_login(test_app):
+def test_show_summary_successful_login(test_app, clubs_fixture):
     """
     GIVEN a Flask app for testing
     WHEN the '/show-summary' page is requested (POST)
@@ -14,9 +14,8 @@ def test_show_summary_successful_login(test_app):
     """
 
     with test_app.test_client() as test_client:
-        response = test_client.post(
-            "/show-summary", data={"email": "john@simplylift.co"}
-        )
+        club_email = clubs_fixture[0]["email"]
+        response = test_client.post("/show-summary", data={"email": club_email})
         assert response.status_code == 200
         assert b"Welcome, john@simplylift.co"
 
