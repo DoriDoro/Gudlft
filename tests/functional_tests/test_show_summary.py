@@ -17,7 +17,7 @@ def test_show_summary_successful_login(test_app, clubs_fixture):
         club_email = clubs_fixture[0]["email"]
         response = test_client.post("/show-summary", data={"email": club_email})
         assert response.status_code == 200
-        assert b"Welcome, john@simplylift.co"
+        assert b"Welcome, john@simplylift.co" in response.data
 
 
 def test_show_summary_failed_login(test_app):

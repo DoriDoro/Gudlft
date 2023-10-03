@@ -1,7 +1,6 @@
 """
 This file test_index.py contains the functional tests for the route index
 """
-from server import app
 
 
 def test_index(test_app):
