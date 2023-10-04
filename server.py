@@ -99,6 +99,7 @@ def purchase_places():
 @app.route("/dashboard")
 def dashboard():
     """display the points of the clubs"""
+    print("check-----", request.__dict__)
 
     return render_template("dashboard.html", clubs=clubs)
 
