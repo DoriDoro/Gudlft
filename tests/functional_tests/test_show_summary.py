@@ -11,6 +11,7 @@ def test_show_summary_successful_login(test_app, clubs_fixture):
     GIVEN a Flask app for testing
     WHEN the '/show-summary' page is requested (POST)
     THEN check if response is valid
+        use the first club email for testing
     """
 
     with test_app.test_client() as test_client:
@@ -25,6 +26,7 @@ def test_show_summary_failed_login(test_app):
     GIVEN a Flask app for testing
     WHEN the '/show-summary' page is requested (POST)
     THEN check if response is valid but with wrong email address
+        use wrong email for testing
     """
 
     with test_app.test_client() as test_client:
