@@ -68,6 +68,7 @@ def book(competition, club):
 @app.route("/purchase-places", methods=["POST"])
 def purchase_places():
     """
+    books places for a competition and
     checks if the secretary is trying to book:
         - more than 12 places at once
         - more places than available

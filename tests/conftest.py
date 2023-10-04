@@ -12,16 +12,6 @@ def test_app():
     return t_app
 
 
-@pytest.fixture
-def test_client():
-    """This fixture/helper sets a test_client for the app"""
-
-    app.testing = True
-
-    with app.test_client():
-        yield test_client
-
-
 @pytest.fixture(scope="module")
 def clubs_fixture():
     """This fixture sets a fake list of clubs for the tests"""
