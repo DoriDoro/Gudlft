@@ -12,6 +12,11 @@ def test_purchase_places_successful(test_app, clubs_fixture, competitions_fixtur
     GIVEN a Flask app for testing
     WHEN the '/purchase_places' page is requested (POST)
     THEN check if response is valid and the secretary has booked places
+        use:
+        - the first club
+        - the first competition
+        - 3 places
+        for testing
     """
 
     with test_app.test_client() as test_client:
@@ -37,6 +42,11 @@ def test_purchase_places_failed_booking_more_than_12_places(
     GIVEN a Flask app for testing
     WHEN the '/purchase_places' page is requested (POST) with more than 12 places
     THEN check if response is valid and the secretary has NOT booked places
+        use:
+        - the first club
+        - the first competition
+        - 13 places
+        for testing
     """
 
     with test_app.test_client() as test_client:
@@ -62,6 +72,11 @@ def test_purchase_places_failed_booking_more_places_than_points(
     GIVEN a Flask app for testing
     WHEN the '/purchase_places' page is requested (POST) with more than club points available
     THEN check if response is valid and the secretary has NOT booked places
+        use:
+        - the second club
+        - the first competition
+        - 6 places
+        for testing
     """
 
     with test_app.test_client() as test_client:
