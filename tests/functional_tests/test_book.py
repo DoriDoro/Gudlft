@@ -16,10 +16,11 @@ def test_book_valid_competition(test_app, clubs_fixture, competitions_fixture):
     with test_app.test_client() as test_client:
         today = datetime.now().replace(microsecond=0)
         valid_competition = competitions_fixture[0]
-        competition_name = valid_competition["name"]
-        club_name = clubs_fixture[0]["name"]
+        club = clubs_fixture[0]
         if valid_competition["date"] > str(today):
-            response = test_client.get(f"/book/{competition_name}/{club_name}")
+            response = test_client.get(
+                f"/book/{valid_competition['name']}/{club['name']}"
+            )
             assert response.status_code == 200
             assert b"Spring Festival" in response.data
             assert b"Places available:" in response.data
@@ -35,9 +36,10 @@ def test_book_invalid_competition(test_app, clubs_fixture, competitions_fixture)
     with test_app.test_client() as test_client:
         today = datetime.now().replace(microsecond=0)
         valid_competition = competitions_fixture[0]
-        competition_name = valid_competition["name"]
-        club_name = clubs_fixture[0]["name"]
+        club = clubs_fixture[0]
         if valid_competition["date"] < str(today):
-            response = test_client.get(f"/book/{competition_name}/{club_name}")
+            response = test_client.get(
+                f"/book/{valid_competition['name']}/{club['name']}"
+            )
             assert response.status_code == 200
             assert b"Sorry, but this competition is already over!" in response.data
