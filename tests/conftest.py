@@ -12,6 +12,12 @@ def test_app():
     return t_app
 
 
+@pytest.fixture
+def test_client(test_app):
+    with test_app.test_client() as test_client:
+        yield test_client
+
+
 @pytest.fixture(scope="module")
 def clubs_fixture():
     """This fixture sets a fake list of clubs for the tests"""
