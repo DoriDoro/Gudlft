@@ -16,7 +16,8 @@ from tests.mocks import (
     VALID_COMPETITION_AVAILABLE_PLACES,
 )
 
-PLACES_INPUT = 5
+PLACES_INPUT_VALID = 5
+PLACES_INPUT_INVALID = 13
 
 
 def test_login_and_book_places(mocker, test_client):
@@ -40,7 +41,7 @@ def test_login_and_book_places(mocker, test_client):
         data={
             "competition": VALID_COMPETITION_NAME,
             "club": VALID_CLUB_NAME,
-            "places": PLACES_INPUT,
+            "places": PLACES_INPUT_VALID,
         },
     )
     assert response.status_code == 200
@@ -59,3 +60,31 @@ def test_login_and_book_invalid_competition(mocker, test_client):
     response = test_client.get(f"/book/{INVALID_COMPETITION_NAME}/{INVALID_CLUB_NAME}")
     assert response.status_code == 200
     assert b"Sorry, but this competition is already over!" in response.data
+
+
+def test_login_purchase_invalid_places_input(mocker, test_client):
+    mocker.patch("server.load_clubs", mock_load_clubs_valid)
+    mocker.patch("server.load_competitions", mock_load_competition_valid)
+
+    response = test_client.post("/show-summary", data={"email": VALID_CLUB_EMAIL})
+    assert response.status_code == 200
+    assert f"Welcome, {VALID_CLUB_EMAIL}" in str(response.data)
+    # assert f"Points available: {VALID_CLUB_POINTS}" in str(response.data)
+
+    response = test_client.get(f"/book/{VALID_COMPETITION_NAME}/{VALID_CLUB_NAME}")
+    assert response.status_code == 200
+    assert VALID_COMPETITION_NAME in str(response.data)
+    # assert f"Places available: {VALID_COMPETITION_AVAILABLE_PLACES}" in str(
+    #     response.data
+    # )
+
+    response = test_client.post(
+        "/purchase-places",
+        data={
+            "competition": VALID_COMPETITION_NAME,
+            "club": VALID_CLUB_NAME,
+            "places": PLACES_INPUT_INVALID,
+        },
+    )
+    assert response.status_code == 200
+    assert b"You can not book more than 12 places!"

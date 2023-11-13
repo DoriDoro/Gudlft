@@ -84,6 +84,7 @@ def purchase_places():
     club = club.pop() if club else None
     places_required = int(request.form["places"])
 
+    # TODO: if places_required = 0
     if (places_required <= int(club["points"])) and (places_required <= 12):
         competition["number_of_places"] = (
             int(competition["number_of_places"]) - places_required
