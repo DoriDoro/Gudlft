@@ -51,8 +51,11 @@ def book(competition, club):
     if invalid competition error"""
 
     today = datetime.now().replace(microsecond=0)
-    found_club = [c for c in clubs if c["name"] == club][0]
-    found_competition = [c for c in competitions if c["name"] == competition][0]
+    # if found_club is empty, it will be None instead of an error:
+    found_club = [c for c in clubs if c["name"] == club]
+    found_club = found_club.pop() if found_club else None
+    found_competition = [c for c in competitions if c["name"] == competition]
+    found_competition = found_competition.pop() if found_competition else None
 
     if found_club and found_competition["date"] > str(today):
         return render_template(
@@ -75,10 +78,10 @@ def purchase_places():
         - more places than she can book
     """
 
-    competition = [c for c in competitions if c["name"] == request.form["competition"]][
-        0
-    ]
-    club = [c for c in clubs if c["name"] == request.form["club"]][0]
+    competition = [c for c in competitions if c["name"] == request.form["competition"]]
+    competition = competition.pop() if competition else None
+    club = [c for c in clubs if c["name"] == request.form["club"]]
+    club = club.pop() if club else None
     places_required = int(request.form["places"])
 
     if (places_required <= int(club["points"])) and (places_required <= 12):
