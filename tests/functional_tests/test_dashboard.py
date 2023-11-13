@@ -2,9 +2,10 @@
 This file test_dashboard.py contains the functional tests for the route dashboard
 - tests the listing of the club points
 """
+from tests.mocks import VALID_CLUB_NAME
 
 
-def test_dashboard(test_client, clubs_fixture):
+def test_dashboard(test_client):
     """
     GIVEN a Flask app for testing
     WHEN the '/dashboard' page is requested (GET)
@@ -13,6 +14,4 @@ def test_dashboard(test_client, clubs_fixture):
 
     response = test_client.get("/dashboard")
     assert response.status_code == 200
-    assert b"Simply Lift" in response.data
-    assert b"Iron Temple" in response.data
-    assert b"She Lifts" in response.data
+    assert VALID_CLUB_NAME in str(response.data)

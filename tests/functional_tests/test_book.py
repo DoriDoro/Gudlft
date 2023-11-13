@@ -5,8 +5,16 @@ This file test_book.py contains the functional tests for the route book
 """
 from datetime import datetime
 
+from tests.mocks import (
+    VALID_CLUB_NAME,
+    INVALID_CLUB_NAME,
+    VALID_COMPETITION_NAME,
+    INVALID_COMPETITION_NAME,
+    VALID_COMPETITION_DATE,
+)
 
-def test_book_valid_competition(test_client, clubs_fixture, competitions_fixture):
+
+def test_book_valid_competition(test_client):
     """
     GIVEN a Flask app for testing
     WHEN the '/book' page is requested (GET)
@@ -15,16 +23,14 @@ def test_book_valid_competition(test_client, clubs_fixture, competitions_fixture
     """
 
     today = datetime.now().replace(microsecond=0)
-    valid_competition = competitions_fixture[0]
-    club = clubs_fixture[0]
-    if valid_competition["date"] > str(today):
-        response = test_client.get(f"/book/{valid_competition['name']}/{club['name']}")
+    if VALID_COMPETITION_DATE > str(today):
+        response = test_client.get(f"/book/{VALID_COMPETITION_NAME}/{VALID_CLUB_NAME}")
         assert response.status_code == 200
-        assert b"Spring Festival" in response.data
+        assert VALID_COMPETITION_NAME in str(response.data)
         assert b"Places available:" in response.data
 
 
-def test_book_invalid_competition(test_client, clubs_fixture, competitions_fixture):
+def test_book_invalid_competition(test_client):
     """
     GIVEN a Flask app for testing
     WHEN the '/book' page is requested (GET)
@@ -33,9 +39,9 @@ def test_book_invalid_competition(test_client, clubs_fixture, competitions_fixtu
     """
 
     today = datetime.now().replace(microsecond=0)
-    valid_competition = competitions_fixture[0]
-    club = clubs_fixture[0]
-    if valid_competition["date"] < str(today):
-        response = test_client.get(f"/book/{valid_competition['name']}/{club['name']}")
+    if VALID_COMPETITION_DATE < str(today):
+        response = test_client.get(
+            f"/book/{INVALID_COMPETITION_NAME}/{INVALID_CLUB_NAME}"
+        )
         assert response.status_code == 200
         assert b"Sorry, but this competition is already over!" in response.data

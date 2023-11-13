@@ -5,9 +5,14 @@ This file test_purchase_places.py contains the functional tests for the route pu
         - books more than 12 places at once
         - books more places than club points available
 """
+from tests.mocks import VALID_CLUB_NAME, VALID_COMPETITION_NAME
+
+PLACES_INPUT_VALID = 5
+PLACES_INPUT_INVALID = 13
+PLACES_INPUT_MORE_THAN_AVAILABLE = 6
 
 
-def test_purchase_places_successful(test_client, clubs_fixture, competitions_fixture):
+def test_purchase_places_successful(test_client):
     """
     GIVEN a Flask app for testing
     WHEN the '/purchase_places' page is requested (POST)
@@ -19,24 +24,19 @@ def test_purchase_places_successful(test_client, clubs_fixture, competitions_fix
         for testing
     """
 
-    club = clubs_fixture[0]
-    competition = competitions_fixture[0]
-    nb_places = 3
     response = test_client.post(
         "/purchase-places",
         data={
-            "club": club["name"],
-            "competition": competition["name"],
-            "places": nb_places,
+            "competition": VALID_COMPETITION_NAME,
+            "club": VALID_CLUB_NAME,
+            "places": PLACES_INPUT_VALID,
         },
     )
     assert response.status_code == 200
     assert b"Great-booking complete!" in response.data
 
 
-def test_purchase_places_failed_booking_more_than_12_places(
-    test_client, clubs_fixture, competitions_fixture
-):
+def test_purchase_places_failed_booking_more_than_12_places(test_client):
     """
     GIVEN a Flask app for testing
     WHEN the '/purchase_places' page is requested (POST) with more than 12 places
@@ -48,24 +48,19 @@ def test_purchase_places_failed_booking_more_than_12_places(
         for testing
     """
 
-    club = clubs_fixture[0]
-    competition = competitions_fixture[0]
-    nb_places = 13
     response = test_client.post(
         "/purchase-places",
         data={
-            "club": club["name"],
-            "competition": competition["name"],
-            "places": nb_places,
+            "club": VALID_CLUB_NAME,
+            "competition": VALID_COMPETITION_NAME,
+            "places": PLACES_INPUT_INVALID,
         },
     )
     assert response.status_code == 200
     assert b"You can not book more than 12 places!" in response.data
 
 
-def test_purchase_places_failed_booking_more_places_than_points(
-    test_client, clubs_fixture, competitions_fixture
-):
+def test_purchase_places_failed_booking_more_places_than_points(test_client):
     """
     GIVEN a Flask app for testing
     WHEN the '/purchase_places' page is requested (POST) with more than club points available
@@ -77,15 +72,12 @@ def test_purchase_places_failed_booking_more_places_than_points(
         for testing
     """
 
-    club = clubs_fixture[1]
-    competition = competitions_fixture[0]
-    nb_places = 6
     response = test_client.post(
         "/purchase-places",
         data={
-            "club": club["name"],
-            "competition": competition["name"],
-            "places": nb_places,
+            "club": VALID_CLUB_NAME,
+            "competition": VALID_COMPETITION_NAME,
+            "places": PLACES_INPUT_MORE_THAN_AVAILABLE,
         },
     )
     assert response.status_code == 200

@@ -8,6 +8,7 @@ INVALID_CLUB_POINTS = "0"
 VALID_COMPETITION_NAME = "Spring Festival"
 INVALID_COMPETITION_NAME = "Invalid Competition Name"
 VALID_COMPETITION_AVAILABLE_PLACES = "25"
+VALID_COMPETITION_DATE = "2024-03-27 10:00:00"
 
 
 def mock_load_clubs_valid():
@@ -34,7 +35,7 @@ def mock_load_competition_valid():
     return [
         {
             "name": VALID_COMPETITION_NAME,
-            "date": "2024-03-27 10:00:00",
+            "date": VALID_COMPETITION_DATE,
             "number_of_places": VALID_COMPETITION_AVAILABLE_PLACES,
         }
     ]
