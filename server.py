@@ -37,12 +37,11 @@ def show_summary():
 
     matching_clubs = [club for club in clubs if club["email"] == request.form["email"]]
 
-    if matching_clubs:
-        club = matching_clubs[0]
-        return render_template("welcome.html", club=club, competitions=competitions)
-    else:
+    if not matching_clubs:
         flash("Sorry, that email was not found.")
         return render_template("index.html")
+    club = matching_clubs[0]
+    return render_template("welcome.html", club=club, competitions=competitions)
 
 
 @app.route("/book/<competition>/<club>")
@@ -57,15 +56,14 @@ def book(competition, club):
     found_competition = [c for c in competitions if c["name"] == competition]
     found_competition = found_competition.pop() if found_competition else None
 
-    if found_club and found_competition["date"] > str(today):
-        return render_template(
-            "booking.html", club=found_club, competition=found_competition
-        )
-    else:
+    if found_club and found_competition["date"] < str(today):
         flash("Sorry, but this competition is already over!")
         return render_template(
             "welcome.html", club=found_club, competitions=competitions
         )
+    return render_template(
+        "booking.html", club=found_club, competition=found_competition
+    )
 
 
 @app.route("/purchase-places", methods=["POST"])
@@ -84,20 +82,27 @@ def purchase_places():
     club = club.pop() if club else None
     places_required = int(request.form["places"])
 
-    # TODO: if places_required = 0
-    if (places_required <= int(club["points"])) and (places_required <= 12):
-        competition["number_of_places"] = (
-            int(competition["number_of_places"]) - places_required
-        )
-        club["points"] = int(club["points"]) - places_required
-        flash("Great-booking complete!")
-        return render_template("welcome.html", club=club, competitions=competitions)
-    elif places_required > 12:
-        flash("You can not book more than 12 places!")
+    error_message = None
+
+    if places_required > int(club["points"]):
+        error_message = "You try to book more places than you have points available!"
+    if places_required > int(competition["number_of_places"]):
+        error_message = "You try to book more than there are places available!"
+    if places_required > 12:
+        error_message = "You can not book more than 12 places!"
+    if places_required == 0:
+        error_message = "Please chose a number between 1 and 12!"
+
+    if error_message is not None:
+        flash(error_message)
         return render_template("booking.html", club=club, competition=competition)
-    else:
-        flash(f"You try to book more places than you have available!")
-        return render_template("booking.html", club=club, competition=competition)
+
+    competition["number_of_places"] = (
+        int(competition["number_of_places"]) - places_required
+    )
+    club["points"] = int(club["points"]) - places_required
+    flash("Great-booking complete!")
+    return render_template("welcome.html", club=club, competitions=competitions)
 
 
 @app.route("/dashboard")
