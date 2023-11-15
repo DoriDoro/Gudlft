@@ -26,3 +26,22 @@ def test_dashboard_login_book_logout(mocker, test_client):
     test_book_valid_competition(test_client)
     test_purchase_places_successful(test_client)
     test_logout(test_client)
+
+    # test_client.post("/show-summary", data={"email": VALID_CLUB_EMAIL})
+    #
+    # test_client.get(f"/book/{VALID_COMPETITION_NAME}/{VALID_CLUB_NAME}")
+    #
+    # response = test_client.post(
+    #     "/purchase-places",
+    #     data={
+    #         "competition": VALID_COMPETITION_NAME,
+    #         "club": VALID_CLUB_NAME,
+    #         "places": 5,
+    #     },
+    #
+    #     competition["number_of_places"] = 15
+    # )
+    # assert response.status_code == 200
+    # assert b"Great-booking complete!"
+    # competition["number_of_places"] = 10
+    # # if the amount has changed   competition["number_of_places"] has changed
