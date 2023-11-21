@@ -21,7 +21,7 @@ def mock_load_clubs_valid():
     ]
 
 
-def mock_load_clubs_email_invalid():
+def mock_load_clubs_invalid():
     return [
         {
             "name": INVALID_CLUB_NAME,
@@ -41,7 +41,7 @@ def mock_load_competition_valid():
     ]
 
 
-def mock_load_competition_invalid_name():
+def mock_load_competition_invalid():
     return [
         {
             "name": INVALID_COMPETITION_NAME,
