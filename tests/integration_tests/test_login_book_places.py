@@ -25,6 +25,17 @@ PURCHASE_PLACES_INVALID = 15
 
 
 def test_login_and_book_places(mocker, test_client):
+    """
+    GIVEN a Flask app for testing
+    WHEN the urls: '/show-summary', '/book/<competition>/<club>', '/purchase-places'
+        page is requested (GET and POST)
+    THEN check if available points are correct in response
+            use:
+            - valid club
+            - valid competition
+            - 6 places
+    """
+
     mocker.patch("server.load_clubs", mock_load_clubs_valid)
     mocker.patch("server.load_competitions", mock_load_competition_valid)
 
@@ -44,6 +55,13 @@ def test_login_and_book_places(mocker, test_client):
 
 
 def test_login_and_book_invalid_competition(mocker, test_client):
+    """
+    GIVEN a Flask app for testing
+    WHEN the urls: '/show-summary', '/book/<competition>/<club>' page is requested (GET and POST)
+    THEN check if error message is displayed:
+        Sorry, but this competition is already over!
+    """
+
     mocker.patch("server.load_clubs", mock_load_clubs_valid)
     mocker.patch("server.load_competitions", mock_load_competition_valid)
 
@@ -58,6 +76,18 @@ def test_login_and_book_invalid_competition(mocker, test_client):
 
 
 def test_login_purchase_invalid_places_input(mocker, test_client):
+    """
+    GIVEN a Flask app for testing
+    WHEN the urls: '/show-summary', '/book/<competition>/<club>' and '/purchase-places'
+        page is requested (GET and POST)
+    THEN check if error message is displayed:
+        You can not book more than 12 places!
+            use:
+            - valid club
+            - valid competition
+            - 15 places
+    """
+
     mocker.patch("server.load_clubs", mock_load_clubs_valid)
     mocker.patch("server.load_competitions", mock_load_competition_valid)
 

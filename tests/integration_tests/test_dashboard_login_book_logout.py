@@ -19,6 +19,18 @@ PURCHASE_PLACES = 6
 
 
 def test_dashboard_login_book_logout(mocker, test_client):
+    """
+    GIVEN a Flask app for testing
+    WHEN the urls: '/dashboard', '/', '/show-summary', '/book/<competition>/<club>',
+        '/purchase-places' and '/logout' page is requested (GET and POST)
+    THEN check if available points are correct in response and
+        if the redirect to the home page is working
+            use:
+            - valid club
+            - valid competition
+            - 6 places
+    """
+
     mocker.patch("server.load_clubs", mock_load_clubs_valid)
     mocker.patch("server.load_competitions", mock_load_competition_valid)
 
