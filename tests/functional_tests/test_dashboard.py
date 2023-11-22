@@ -15,3 +15,4 @@ def test_dashboard(test_client):
     response = test_client.get("/dashboard")
     assert response.status_code == 200
     assert VALID_CLUB_NAME in str(response.data)
+    assert VALID_CLUB_NAME in str(response.data)
