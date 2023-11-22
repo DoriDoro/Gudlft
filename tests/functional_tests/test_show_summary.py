@@ -30,4 +30,4 @@ def test_show_summary_failed_login(test_client):
 
     response = test_client.post("/show-summary", data={"email": INVALID_CLUB_EMAIL})
     assert response.status_code == 200
-    assert b"Welcome to the GUDLFT Registration Portal!" in response.data
+    assert b"Sorry, that email was not found." in response.data
