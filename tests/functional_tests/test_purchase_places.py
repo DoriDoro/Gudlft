@@ -5,6 +5,7 @@ This file test_purchase_places.py contains the functional tests for the route pu
         - books more than 12 places at once
         - books more places than club points available
 """
+
 from tests.mocks import (
     VALID_CLUB_NAME,
     VALID_COMPETITION_NAME,
@@ -12,6 +13,37 @@ from tests.mocks import (
     mock_load_competition_valid,
     VALID_COMPETITION_AVAILABLE_PLACES,
 )
+
+
+def test_purchase_places_failed_booking_more_than_12_places(mocker, test_client):
+    """
+    GIVEN a Flask app for testing
+    WHEN the '/purchase_places' page is requested (POST) with more than 12 places
+    THEN check if response is valid and the secretary has NOT booked places
+        use:
+        - valid club
+        - valid competition
+        - 15 places
+        for testing
+    """
+
+    mocker.patch("server.load_clubs", mock_load_clubs_valid)
+    mocker.patch("server.load_competitions", mock_load_competition_valid)
+
+    response = test_client.post(
+        "/purchase-places",
+        data={
+            "club": VALID_CLUB_NAME,
+            "competition": VALID_COMPETITION_NAME,
+            "places": 77,
+        },
+    )
+    assert response.status_code == 200
+    print("hhh -----", response.data)
+    assert b"You can not book more than 12 places!" in response.data
+    assert f"Places available: {VALID_COMPETITION_AVAILABLE_PLACES}" in str(
+        response.data
+    )
 
 
 def test_purchase_places_successful(mocker, test_client):
@@ -40,36 +72,6 @@ def test_purchase_places_successful(mocker, test_client):
     assert response.status_code == 200
     assert b"Great-booking complete!" in response.data
     assert f"Points available: 7" in str(response.data)
-
-
-def test_purchase_places_failed_booking_more_than_12_places(mocker, test_client):
-    """
-    GIVEN a Flask app for testing
-    WHEN the '/purchase_places' page is requested (POST) with more than 12 places
-    THEN check if response is valid and the secretary has NOT booked places
-        use:
-        - valid club
-        - valid competition
-        - 15 places
-        for testing
-    """
-
-    mocker.patch("server.load_clubs", mock_load_clubs_valid)
-    mocker.patch("server.load_competitions", mock_load_competition_valid)
-
-    response = test_client.post(
-        "/purchase-places",
-        data={
-            "club": VALID_CLUB_NAME,
-            "competition": VALID_COMPETITION_NAME,
-            "places": 15,
-        },
-    )
-    assert response.status_code == 200
-    assert b"You can not book more than 12 places!" in response.data
-    assert f"Places available: {VALID_COMPETITION_AVAILABLE_PLACES}" in str(
-        response.data
-    )
 
 
 def test_purchase_places_failed_booking_zero_places(mocker, test_client):

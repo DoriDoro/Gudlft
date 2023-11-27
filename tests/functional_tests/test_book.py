@@ -13,16 +13,23 @@ from tests.mocks import (
     VALID_COMPETITION_DATE,
     VALID_COMPETITION_AVAILABLE_PLACES,
     VALID_CLUB_POINTS,
+    mock_load_clubs_valid,
+    mock_load_competition_valid,
+    mock_load_clubs_invalid,
+    mock_load_competition_invalid,
 )
 
 
-def test_book_valid_competition(test_client):
+def test_book_valid_competition(test_client, mocker):
     """
     GIVEN a Flask app for testing
     WHEN the '/book' page is requested (GET)
     THEN checks if the competition date is in the future,
             valid competition, lists the competition to book places
     """
+
+    mocker.patch("server.load_clubs", mock_load_clubs_valid)
+    mocker.patch("server.load_competitions", mock_load_competition_valid)
 
     response = test_client.get(f"/book/{VALID_COMPETITION_NAME}/{VALID_CLUB_NAME}")
     assert response.status_code == 200
@@ -33,7 +40,7 @@ def test_book_valid_competition(test_client):
     assert b"How many places?" in response.data
 
 
-def test_book_invalid_competition(test_client):
+def test_book_invalid_competition(test_client, mocker):
     """
     GIVEN a Flask app for testing
     WHEN the '/book' page is requested (GET)
@@ -41,6 +48,9 @@ def test_book_invalid_competition(test_client):
             invalid competition, stays on same page and displays error message:
                 Sorry, but this competition is already over!
     """
+
+    mocker.patch("server.load_clubs", mock_load_clubs_invalid)
+    mocker.patch("server.load_competitions", mock_load_competition_invalid)
 
     today = datetime.now().replace(microsecond=0)
     if VALID_COMPETITION_DATE < str(today):

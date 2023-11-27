@@ -16,6 +16,7 @@ from tests.mocks import (
     INVALID_COMPETITION_NAME,
     INVALID_CLUB_NAME,
     VALID_COMPETITION_DATE,
+    mock_load_competition_invalid,
 )
 
 PLACES_INPUT_VALID = 5
@@ -36,8 +37,8 @@ def test_login_and_book_places(mocker, test_client):
             - 6 places
     """
 
-    mocker.patch("server.load_clubs", mock_load_clubs_valid)
-    mocker.patch("server.load_competitions", mock_load_competition_valid)
+    mocker.patch("server.load_clubs", new=mock_load_clubs_valid)
+    mocker.patch("server.load_competitions", new=mock_load_competition_valid)
 
     test_client.post("/show-summary", data={"email": VALID_CLUB_EMAIL})
     test_client.get(f"/book/{VALID_COMPETITION_NAME}/{VALID_CLUB_NAME}")
@@ -63,7 +64,7 @@ def test_login_and_book_invalid_competition(mocker, test_client):
     """
 
     mocker.patch("server.load_clubs", mock_load_clubs_valid)
-    mocker.patch("server.load_competitions", mock_load_competition_valid)
+    mocker.patch("server.load_competitions", mock_load_competition_invalid)
 
     test_client.post("/show-summary", data={"email": VALID_CLUB_EMAIL})
     today = datetime.now().replace(microsecond=0)
