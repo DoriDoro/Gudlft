@@ -6,12 +6,19 @@ dashboard, login of one secretary, purchase of places of a valid competition and
 """
 from flask import url_for
 
-import tests.mocks as mock
+from tests.mocks import (
+    VALID_COMPETITION_NAME,
+    VALID_CLUB_NAME,
+    VALID_CLUB_EMAIL,
+    VALID_CLUB_POINTS,
+)
 
 PURCHASE_PLACES = 6
 
 
-def test_dashboard_login_book_logout(mocker, test_client):
+def test_dashboard_login_book_logout(
+    test_client, mock_clubs_valid, mock_competitions_valid
+):
     """
     GIVEN a Flask app for testing
     WHEN the urls: '/dashboard', '/', '/show-summary', '/book/<competition>/<club>',
@@ -24,23 +31,20 @@ def test_dashboard_login_book_logout(mocker, test_client):
             - 6 places
     """
 
-    mocker.patch("server.load_clubs", mock.mock_load_clubs_valid)
-    mocker.patch("server.load_competitions", mock.mock_load_competition_valid)
-
     test_client.get("/dashboard")
     test_client.get("/")
-    test_client.post("/show-summary", data={"email": mock.VALID_CLUB_EMAIL})
-    test_client.get(f"/book/{mock.VALID_COMPETITION_NAME}/{mock.VALID_CLUB_NAME}")
+    test_client.post("/show-summary", data={"email": VALID_CLUB_EMAIL})
+    test_client.get(f"/book/{VALID_COMPETITION_NAME}/{VALID_CLUB_NAME}")
     response = test_client.post(
         "/purchase-places",
         data={
-            "competition": mock.VALID_COMPETITION_NAME,
-            "club": mock.VALID_CLUB_NAME,
+            "competition": VALID_COMPETITION_NAME,
+            "club": VALID_CLUB_NAME,
             "places": PURCHASE_PLACES,
         },
     )
     assert response.status_code == 200
-    result = int(mock.VALID_CLUB_POINTS) - PURCHASE_PLACES
+    result = int(VALID_CLUB_POINTS) - PURCHASE_PLACES
     assert f"Points available: {result}" in str(
         response.data
     )  # assert f"Points available: 7" in str(response.data)
