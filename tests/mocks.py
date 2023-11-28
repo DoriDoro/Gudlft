@@ -1,5 +1,5 @@
 VALID_CLUB_EMAIL = "valid@email.com"
-INVALID_CLUB_EMAIL = "invalid@rmail.com"
+INVALID_CLUB_EMAIL = "invalid@email.c"
 VALID_CLUB_NAME = "Valid Club Name"
 INVALID_CLUB_NAME = "Invalid Club Name"
 VALID_CLUB_POINTS = "13"
