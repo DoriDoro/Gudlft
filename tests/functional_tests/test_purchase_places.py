@@ -9,13 +9,13 @@ This file test_purchase_places.py contains the functional tests for the route pu
 from tests.mocks import (
     VALID_CLUB_NAME,
     VALID_COMPETITION_NAME,
-    mock_load_clubs_valid,
-    mock_load_competition_valid,
     VALID_COMPETITION_AVAILABLE_PLACES,
 )
 
 
-def test_purchase_places_failed_booking_more_than_12_places(mocker, test_client):
+def test_purchase_places_failed_booking_more_than_12_places(
+    test_client, mock_clubs_valid, mock_competitions_valid
+):
     """
     GIVEN a Flask app for testing
     WHEN the '/purchase_places' page is requested (POST) with more than 12 places
@@ -27,9 +27,6 @@ def test_purchase_places_failed_booking_more_than_12_places(mocker, test_client)
         for testing
     """
 
-    mocker.patch("server.load_clubs", mock_load_clubs_valid)
-    mocker.patch("server.load_competitions", mock_load_competition_valid)
-
     response = test_client.post(
         "/purchase-places",
         data={
@@ -39,14 +36,15 @@ def test_purchase_places_failed_booking_more_than_12_places(mocker, test_client)
         },
     )
     assert response.status_code == 200
-    print("hhh -----", response.data)
     assert b"You can not book more than 12 places!" in response.data
     assert f"Places available: {VALID_COMPETITION_AVAILABLE_PLACES}" in str(
         response.data
     )
 
 
-def test_purchase_places_successful(mocker, test_client):
+def test_purchase_places_successful(
+    test_client, mock_clubs_valid, mock_competitions_valid
+):
     """
     GIVEN a Flask app for testing
     WHEN the '/purchase_places' page is requested (POST)
@@ -57,9 +55,6 @@ def test_purchase_places_successful(mocker, test_client):
         - 6 places
         for testing
     """
-
-    mocker.patch("server.load_clubs", mock_load_clubs_valid)
-    mocker.patch("server.load_competitions", mock_load_competition_valid)
 
     response = test_client.post(
         "/purchase-places",
@@ -74,7 +69,9 @@ def test_purchase_places_successful(mocker, test_client):
     assert f"Points available: 7" in str(response.data)
 
 
-def test_purchase_places_failed_booking_zero_places(mocker, test_client):
+def test_purchase_places_failed_booking_zero_places(
+    test_client, mock_clubs_valid, mock_competitions_valid
+):
     """
     GIVEN a Flask app for testing
     WHEN the '/purchase_places' page is requested (POST) with more than club points available
@@ -85,9 +82,6 @@ def test_purchase_places_failed_booking_zero_places(mocker, test_client):
         - 0 places
         for testing
     """
-
-    mocker.patch("server.load_clubs", mock_load_clubs_valid)
-    mocker.patch("server.load_competitions", mock_load_competition_valid)
 
     response = test_client.post(
         "/purchase-places",
