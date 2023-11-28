@@ -1,17 +1,19 @@
-VALID_CLUB_EMAIL = "john@simplylift.co"
-INVALID_CLUB_EMAIL = "john@simply.co"
-VALID_CLUB_NAME = "Simply Lift"
+VALID_CLUB_EMAIL = "valid@email.com"
+INVALID_CLUB_EMAIL = "invalid@rmail.com"
+VALID_CLUB_NAME = "Valid Club Name"
 INVALID_CLUB_NAME = "Invalid Club Name"
 VALID_CLUB_POINTS = "13"
 INVALID_CLUB_POINTS = "0"
 
-VALID_COMPETITION_NAME = "Spring Festival"
+VALID_COMPETITION_NAME = "Valid Competition Name"
 INVALID_COMPETITION_NAME = "Invalid Competition Name"
 VALID_COMPETITION_AVAILABLE_PLACES = "25"
 VALID_COMPETITION_DATE = "2024-03-27 10:00:00"
 
 
 def mock_load_clubs_valid():
+    """creates a mock for the function in server.py named: load_clubs"""
+
     return [
         {
             "name": VALID_CLUB_NAME,
@@ -22,6 +24,8 @@ def mock_load_clubs_valid():
 
 
 def mock_load_clubs_invalid():
+    """creates a mock for the function in server.py named: load_clubs with invalid data"""
+
     return [
         {
             "name": INVALID_CLUB_NAME,
@@ -32,6 +36,8 @@ def mock_load_clubs_invalid():
 
 
 def mock_load_competition_valid():
+    """creates a mock for the function in server.py named: load_competitions"""
+
     return [
         {
             "name": VALID_COMPETITION_NAME,
@@ -42,10 +48,12 @@ def mock_load_competition_valid():
 
 
 def mock_load_competition_invalid():
+    """creates a mock for the function in server.py named: load_competitions with invalid data"""
+
     return [
         {
             "name": INVALID_COMPETITION_NAME,
-            "date": "2024-03-27 10:00:00",
+            "date": "2020-03-27 10:00:00",
             "number_of_places": "25",
         }
     ]
