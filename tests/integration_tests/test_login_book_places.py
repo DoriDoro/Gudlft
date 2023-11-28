@@ -25,7 +25,7 @@ PURCHASE_PLACES_VALID = 6
 PURCHASE_PLACES_INVALID = 15
 
 
-def test_login_and_book_places(mocker, test_client):
+def test_login_and_book_places(test_client, mock_clubs_valid, mock_competitions_valid):
     """
     GIVEN a Flask app for testing
     WHEN the urls: '/show-summary', '/book/<competition>/<club>', '/purchase-places'
@@ -36,9 +36,6 @@ def test_login_and_book_places(mocker, test_client):
             - valid competition
             - 6 places
     """
-
-    mocker.patch("server.load_clubs", new=mock_load_clubs_valid)
-    mocker.patch("server.load_competitions", new=mock_load_competition_valid)
 
     test_client.post("/show-summary", data={"email": VALID_CLUB_EMAIL})
     test_client.get(f"/book/{VALID_COMPETITION_NAME}/{VALID_CLUB_NAME}")
@@ -55,16 +52,15 @@ def test_login_and_book_places(mocker, test_client):
     assert f"Points available: {result}" in str(response.data)
 
 
-def test_login_and_book_invalid_competition(mocker, test_client):
+def test_login_and_book_invalid_competition(
+    test_client, mock_clubs_valid, mock_competitions_valid, mock_competitions_invalid
+):
     """
     GIVEN a Flask app for testing
     WHEN the urls: '/show-summary', '/book/<competition>/<club>' page is requested (GET and POST)
     THEN check if error message is displayed:
         Sorry, but this competition is already over!
     """
-
-    mocker.patch("server.load_clubs", mock_load_clubs_valid)
-    mocker.patch("server.load_competitions", mock_load_competition_invalid)
 
     test_client.post("/show-summary", data={"email": VALID_CLUB_EMAIL})
     today = datetime.now().replace(microsecond=0)
@@ -76,7 +72,9 @@ def test_login_and_book_invalid_competition(mocker, test_client):
         assert b"Sorry, but this competition is already over!" in response.data
 
 
-def test_login_purchase_invalid_places_input(mocker, test_client):
+def test_login_purchase_invalid_places_input(
+    test_client, mock_clubs_valid, mock_competitions_valid
+):
     """
     GIVEN a Flask app for testing
     WHEN the urls: '/show-summary', '/book/<competition>/<club>' and '/purchase-places'
@@ -88,9 +86,6 @@ def test_login_purchase_invalid_places_input(mocker, test_client):
             - valid competition
             - 15 places
     """
-
-    mocker.patch("server.load_clubs", mock_load_clubs_valid)
-    mocker.patch("server.load_competitions", mock_load_competition_valid)
 
     test_client.post("/show-summary", data={"email": VALID_CLUB_EMAIL})
     test_client.get(f"/book/{VALID_COMPETITION_NAME}/{VALID_CLUB_NAME}")
