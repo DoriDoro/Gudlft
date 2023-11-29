@@ -7,7 +7,7 @@ This file test_show_summary.py contains the functional tests for the route show_
 from tests.mocks import VALID_CLUB_EMAIL, INVALID_CLUB_EMAIL
 
 
-def test_show_summary_successful_login(test_client):
+def test_show_summary_successful_login(test_client, mock_clubs_valid):
     """
     GIVEN a Flask app for testing
     WHEN the '/show-summary' page is requested (POST)
@@ -20,7 +20,7 @@ def test_show_summary_successful_login(test_client):
     assert f"Welcome, {VALID_CLUB_EMAIL}" in str(response.data)
 
 
-def test_show_summary_failed_login(test_client):
+def test_show_summary_failed_login(test_client, mock_clubs_valid):
     """
     GIVEN a Flask app for testing
     WHEN the '/show-summary' page is requested (POST)
