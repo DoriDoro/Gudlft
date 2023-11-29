@@ -20,7 +20,7 @@ def test_show_summary_successful_login(test_client, mock_clubs_valid):
     assert f"Welcome, {VALID_CLUB_EMAIL}" in str(response.data)
 
 
-def test_show_summary_failed_login(test_client, mock_clubs_invalid):
+def test_show_summary_failed_login(test_client, mock_clubs_valid):
     """
     GIVEN a Flask app for testing
     WHEN the '/show-summary' page is requested (POST)
@@ -29,6 +29,5 @@ def test_show_summary_failed_login(test_client, mock_clubs_invalid):
     """
 
     response = test_client.post("/show-summary", data={"email": INVALID_CLUB_EMAIL})
-    print("----- here ----", response.data)
     assert response.status_code == 200
     assert b"Sorry, that email was not found." in response.data
