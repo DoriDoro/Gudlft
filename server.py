@@ -35,13 +35,23 @@ def show_summary():
     """checks if the email address is correct, if email is false, error message
     displays a list of competitions"""
 
-    matching_clubs = [club for club in clubs if club["email"] == request.form["email"]]
+    email = request.form["email"]
+    club = next((club for club in clubs if club["email"] == email), None)
+
+    if club is None:
+        flash("Sorry, that email was not found.")
+        return render_template("index.html")
+
+    return render_template("welcome.html", club=club, competitions=competitions)
+
+
+"""matching_clubs = [club for club in clubs if club["email"] == request.form["email"]]
 
     if not matching_clubs:
         flash("Sorry, that email was not found.")
         return render_template("index.html")
     club = matching_clubs[0]
-    return render_template("welcome.html", club=club, competitions=competitions)
+    return render_template("welcome.html", club=club, competitions=competitions)"""
 
 
 """
@@ -69,6 +79,28 @@ def book(competition, club):
     if invalid competition error"""
 
     today = datetime.now().replace(microsecond=0)
+
+    found_club = next((c for c in clubs if c["name"] == club), None)
+    if found_club is None:
+        flash("Sorry, but this club is not found!")
+
+    found_competition = next(
+        (c for c in competitions if c["name"] == competition), None
+    )
+    if found_competition is None:
+        flash("Sorry, but this competition is not found!")
+
+    if found_competition["date"] < str(today):
+        flash("Sorry, but this competition is already over!")
+        return render_template(
+            "welcome.html", club=found_club, competitions=competitions
+        )
+    return render_template(
+        "booking.html", club=found_club, competition=found_competition
+    )
+
+
+"""    today = datetime.now().replace(microsecond=0)
     # if found_club is empty, it will be None instead of an error:
     found_club = [c for c in clubs if c["name"] == club]
     found_club = found_club.pop() if found_club else None
@@ -82,7 +114,7 @@ def book(competition, club):
         )
     return render_template(
         "booking.html", club=found_club, competition=found_competition
-    )
+    )"""
 
 
 """
@@ -126,7 +158,41 @@ def purchase_places():
         - more places than she can book
     """
 
-    competition = [c for c in competitions if c["name"] == request.form["competition"]]
+    competition_name = request.form["competition"]
+    club_name = request.form["club"]
+    places_required = int(request.form["places"])
+
+    competition = next((c for c in competitions if c["name"] == competition_name), None)
+    if competition is None:
+        flash("Competition not found!")
+    club = next((c for c in clubs if c["name"] == club_name), None)
+    if club is None:
+        flash("Club not found.")
+
+    error_message = None
+
+    if places_required > int(club["points"]):
+        error_message = "You try to book more places than you have points available!"
+    if places_required > int(competition["number_of_places"]):
+        error_message = "You try to book more than there are places available!"
+    if places_required > 12:
+        error_message = "You can not book more than 12 places!"
+    if places_required == 0:
+        error_message = "Please chose a number between 1 and 12!"
+
+    if error_message is not None:
+        flash(error_message)
+        return render_template("booking.html", club=club, competition=competition)
+
+    competition["number_of_places"] = (
+        int(competition["number_of_places"]) - places_required
+    )
+    club["points"] = int(club["points"]) - places_required
+    flash("Great-booking complete!")
+    return render_template("welcome.html", club=club, competitions=competitions)
+
+
+"""competition = [c for c in competitions if c["name"] == request.form["competition"]]
     competition = competition.pop() if competition else None
     club = [c for c in clubs if c["name"] == request.form["club"]]
     club = club.pop() if club else None
@@ -152,7 +218,7 @@ def purchase_places():
     )
     club["points"] = int(club["points"]) - places_required
     flash("Great-booking complete!")
-    return render_template("welcome.html", club=club, competitions=competitions)
+    return render_template("welcome.html", club=club, competitions=competitions)"""
 
 
 """
