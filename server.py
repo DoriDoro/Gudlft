@@ -5,12 +5,16 @@ from flask import Flask, render_template, request, redirect, flash, url_for
 
 
 def load_clubs():
+    """load all clubs from clubs.json file"""
+
     with open("clubs.json") as c:
         list_of_clubs = json.load(c)["clubs"]
         return list_of_clubs
 
 
 def load_competitions():
+    """load all competitions from competition.json file"""
+
     with open("competitions.json") as comps:
         list_of_competitions = json.load(comps)["competitions"]
         return list_of_competitions
@@ -21,6 +25,21 @@ app.secret_key = "something_special"
 
 competitions = load_competitions()
 clubs = load_clubs()
+
+
+def get_single_club(club):
+    """loops through clubs (all clubs, loaded with load_club) and return a single club"""
+
+    # if found_club is empty, it will be None instead of an error:
+    get_club = [c for c in clubs if c["name"] == club]
+    return get_club.pop() if get_club else None
+
+
+def get_single_competition(competition):
+    """loops through competitions (all loaded competitions) and return single competition"""
+
+    get_competition = [c for c in competitions if c["name"] == competition]
+    return get_competition.pop() if get_competition else None
 
 
 @app.route("/")
@@ -50,11 +69,9 @@ def book(competition, club):
     if invalid competition error"""
 
     today = datetime.now().replace(microsecond=0)
-    # if found_club is empty, it will be None instead of an error:
-    found_club = [c for c in clubs if c["name"] == club]
-    found_club = found_club.pop() if found_club else None
-    found_competition = [c for c in competitions if c["name"] == competition]
-    found_competition = found_competition.pop() if found_competition else None
+
+    found_club = get_single_club(club)
+    found_competition = get_single_competition(competition)
 
     if found_club and found_competition["date"] < str(today):
         flash("Sorry, but this competition is already over!")
@@ -76,10 +93,8 @@ def purchase_places():
         - more places than she can book
     """
 
-    competition = [c for c in competitions if c["name"] == request.form["competition"]]
-    competition = competition.pop() if competition else None
-    club = [c for c in clubs if c["name"] == request.form["club"]]
-    club = club.pop() if club else None
+    competition = get_single_competition(request.form["competition"])
+    club = get_single_club(request.form["club"])
     places_required = int(request.form["places"])
 
     error_message = None
