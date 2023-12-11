@@ -27,18 +27,18 @@ competitions = load_competitions()
 clubs = load_clubs()
 
 
-def get_single_club(club):
+def get_single_club(club_name):
     """loops through clubs (all clubs, loaded with load_club) and return a single club"""
 
     # if found_club is empty, it will be None instead of an error:
-    get_club = [c for c in clubs if c["name"] == club]
+    get_club = [c for c in clubs if c["name"] == club_name]
     return get_club.pop() if get_club else None
 
 
-def get_single_competition(competition):
+def get_single_competition(competition_name):
     """loops through competitions (all loaded competitions) and return single competition"""
 
-    get_competition = [c for c in competitions if c["name"] == competition]
+    get_competition = [c for c in competitions if c["name"] == competition_name]
     return get_competition.pop() if get_competition else None
 
 
