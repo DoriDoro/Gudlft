@@ -20,23 +20,30 @@ is to create functional and integration tests to make sure the functionality.
 
 
 ## Visualisation:
-**1. Home Page** <br>
+**1. Home Page**
 ![home page](README_images/Gudlft_homepage.png)
+<br>
 
-**2. Dashboard** <br>
+**2. Dashboard**
 ![Dashboard](README_images/Gudlft_dashboard.png)
+<br>
 
-**3. Show Summary** <br>
+**3. Show Summary**
 ![show summary](README_images/Gudlft_show-summary.png)
+<br>
 
-**4. successful purchase of places** <br>
+**4. successful purchase of places**
 ![successful purchase](README_images/Gudlft_successful_purchase.png)
+<br>
 
-**5. Error when purchase more than 12 places** <br>
+**5. Error when purchase more than 12 places**
 ![Error 12 places](README_images/Gudlft_Error_more_12.png)
+<br>
 
-**6. Error when purchase more places than points available** <br>
+**6. Error when purchase more places than points available**
 ![Error more places than points](README_images/Gudlft_Error_much_places.png)
+<br>
 
-**7. Error when competition is over** <br>
+**7. Error when competition is over**
 ![Error competition over](README_images/Gudlft_Error_competition_over.png)
+<br>
