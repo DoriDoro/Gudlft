@@ -11,6 +11,10 @@ The prototype is stored in this [GitHub repository](https://github.com/OpenClass
 In the issue section of this repository are bugs to fix and features to implement. The second step 
 is to create functional and integration tests to make sure the functionality.
 
+To implement unit tests, in branch `modification/server` I add functions to be able to make 
+unit tests for a single function. In branch `tests/server` there are several unit tests. These two 
+branches are not integrated into `QA` or `main`. 
+
 
 ## Skills:
 - Implement a Python test suite
