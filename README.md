@@ -24,30 +24,30 @@ branches are not integrated into `QA` or `main`.
 
 
 ## Visualisation:
-**1. Home Page**
+**1. Home Page** <br>
 ![home page](README_images/Gudlft_homepage.png)
 <br>
 
-**2. Dashboard**
+**2. Dashboard** <br>
 ![Dashboard](README_images/Gudlft_dashboard.png)
 <br>
 
-**3. Show Summary**
+**3. Show Summary** <br>
 ![show summary](README_images/Gudlft_show-summary.png)
 <br>
 
-**4. successful purchase of places**
+**4. successful purchase of places** <br>
 ![successful purchase](README_images/Gudlft_successful_purchase.png)
 <br>
 
-**5. Error when purchase more than 12 places**
+**5. Error when purchase more than 12 places** <br>
 ![Error 12 places](README_images/Gudlft_Error_more_12.png)
 <br>
 
-**6. Error when purchase more places than points available**
+**6. Error when purchase more places than points available** <br>
 ![Error more places than points](README_images/Gudlft_Error_much_places.png)
 <br>
 
-**7. Error when competition is over**
+**7. Error when competition is over** <br>
 ![Error competition over](README_images/Gudlft_Error_competition_over.png)
 <br>
