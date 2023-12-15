@@ -16,6 +16,21 @@ unit tests for a single function. In branch `tests/server` there are several uni
 branches are not integrated into `QA` or `main`. 
 
 
+## Installation:
+open terminal
+1. clone the repository: `git clone https://github.com/DoriDoro/Gudlft.git`
+2. go to folder: `cd Gudlft`
+3. install the virtual environment: `python3 -m venv venv`
+4. activate the virtual environment: `. venv/bin/activate` on MacOS and Linux and `venv\Script\activate` on Windows
+5. install all dependencies with: `pip install -r requirements.txt`
+6. run the server:
+```
+export FLASK_APP=server
+export FLASK_ENV=development
+flask run
+```
+
+
 ## Skills:
 - Implement a Python test suite
 - Handling errors and exceptions in Python
@@ -27,6 +42,7 @@ branches are not integrated into `QA` or `main`.
 **1. Home Page** <br>
 ![home page](README_images/Gudlft_homepage.png)
 <br>
+<hr>
 
 **2. Dashboard** <br>
 ![Dashboard](README_images/Gudlft_dashboard.png)
