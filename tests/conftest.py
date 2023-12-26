@@ -2,8 +2,8 @@
 
 import pytest
 
-import server
-from tests import mocks
+import Python_Testing.server as server
+from Python_Testing.tests import mocks
 
 
 @pytest.fixture

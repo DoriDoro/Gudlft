@@ -6,7 +6,7 @@ This file test_purchase_places.py contains the functional tests for the route pu
         - books more places than club points available
 """
 
-from tests.mocks import (
+from Python_Testing.tests.mocks import (
     VALID_CLUB_NAME,
     VALID_COMPETITION_NAME,
     VALID_COMPETITION_AVAILABLE_PLACES,

@@ -6,9 +6,7 @@ secretary and one purchase of places of a competition.
 """
 from datetime import datetime
 
-from tests.mocks import (
-    mock_load_clubs_valid,
-    mock_load_competition_valid,
+from Python_Testing.tests.mocks import (
     VALID_CLUB_EMAIL,
     VALID_COMPETITION_NAME,
     VALID_CLUB_NAME,

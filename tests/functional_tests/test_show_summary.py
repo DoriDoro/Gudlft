@@ -4,7 +4,7 @@ This file test_show_summary.py contains the functional tests for the route show_
 - tests the failed login with email
 - tests the display of the competitions on the website with url show-summary/
 """
-from tests.mocks import VALID_CLUB_EMAIL, INVALID_CLUB_EMAIL
+from Python_Testing.tests.mocks import VALID_CLUB_EMAIL, INVALID_CLUB_EMAIL
 
 
 def test_show_summary_successful_login(test_client, mock_clubs_valid):
