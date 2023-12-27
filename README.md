@@ -18,16 +18,16 @@ branches are not integrated into `QA` or `main`.
 
 ## Installation:
 open terminal
-1. clone the repository:
+1. clone the repository: <br>
 `git clone https://github.com/DoriDoro/Gudlft.git`
-2. go to folder: 
+2. go to folder: <br>
 `cd Gudlft`
-3. install the virtual environment: 
+3. install the virtual environment: <br> 
 `python3 -m venv venv`
 4. activate the virtual environment with following command: 
    - on MacOS and Linux: `. venv/bin/activate`
    - on Windows: `venv\Script\activate` 
-5. install all dependencies with: 
+5. install all dependencies with: <br>
 `pip install -r requirements.txt`
 6. run the server with:
     ```
@@ -38,12 +38,21 @@ open terminal
 
 
 ## Testing:
-To run all the tests use:
+To run all the tests use: <br>
    `pytest`
-- If you want to check one folder use (example):
+- If you want to check one folder use (example): <br>
    `pytest tests/integration_tests/`
-- If you want to test one file use (example):
+- If you want to test one file use (example): <br>
    `pytest tests/functional_tests/test_book.py`
+
+**check the coverage of testing:** <br>
+installed package: <br>
+   `pytest-cov` <br>
+(This plugin produces coverage reports)
+- use this command to check the coverage: <br>
+   `pytest --cov=Python_Testing tests/`
+- to create the report use: <br>
+   `coverage html`
 
 
 ## Skills:
