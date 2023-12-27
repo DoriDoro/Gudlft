@@ -54,6 +54,9 @@ installed package: <br>
 - to create the report use: <br>
    `coverage html`
 
+**Results of testing:**
+![result testing](README_images/Gudlft_coverage_testing.png)
+
 
 ## Skills:
 - Implement a Python test suite
