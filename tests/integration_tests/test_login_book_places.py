@@ -6,17 +6,15 @@ secretary and one purchase of places of a competition.
 """
 from datetime import datetime
 
-from tests.mocks import (
-    mock_load_clubs_valid,
-    mock_load_competition_valid,
-    VALID_CLUB_EMAIL,
-    VALID_COMPETITION_NAME,
+from Python_Testing.tests.mocks import (
     VALID_CLUB_NAME,
+    VALID_CLUB_EMAIL,
     VALID_CLUB_POINTS,
-    INVALID_COMPETITION_NAME,
     INVALID_CLUB_NAME,
-    VALID_COMPETITION_DATE,
-    mock_load_competition_invalid,
+    INVALID_CLUB_POINTS,
+    VALID_COMPETITION_NAME,
+    INVALID_COMPETITION_NAME,
+    INVALID_COMPETITION_DATE,
 )
 
 PLACES_INPUT_VALID = 5
@@ -53,7 +51,11 @@ def test_login_and_book_places(test_client, mock_clubs_valid, mock_competitions_
 
 
 def test_login_and_book_invalid_competition(
-    test_client, mock_clubs_valid, mock_competitions_valid, mock_competitions_invalid
+    test_client,
+    mock_clubs_valid,
+    mock_clubs_invalid,
+    mock_competitions_valid,
+    mock_competitions_invalid,
 ):
     """
     GIVEN a Flask app for testing
@@ -64,12 +66,13 @@ def test_login_and_book_invalid_competition(
 
     test_client.post("/show-summary", data={"email": VALID_CLUB_EMAIL})
     today = datetime.now().replace(microsecond=0)
-    if VALID_COMPETITION_DATE < str(today):
+    if INVALID_COMPETITION_DATE < str(today):
         response = test_client.get(
             f"/book/{INVALID_COMPETITION_NAME}/{INVALID_CLUB_NAME}"
         )
         assert response.status_code == 200
         assert b"Sorry, but this competition is already over!" in response.data
+        assert f"Points available: {INVALID_CLUB_POINTS}" in str(response.data)
 
 
 def test_login_purchase_invalid_places_input(

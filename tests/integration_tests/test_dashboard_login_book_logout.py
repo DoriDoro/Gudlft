@@ -6,7 +6,7 @@ dashboard, login of one secretary, purchase of places of a valid competition and
 """
 from flask import url_for
 
-from tests.mocks import (
+from Python_Testing.tests.mocks import (
     VALID_COMPETITION_NAME,
     VALID_CLUB_NAME,
     VALID_CLUB_EMAIL,

@@ -5,7 +5,7 @@ This file test_book.py contains the functional tests for the route book
 """
 from datetime import datetime
 
-from tests.mocks import (
+from Python_Testing.tests.mocks import (
     VALID_CLUB_NAME,
     INVALID_CLUB_NAME,
     VALID_COMPETITION_NAME,
