@@ -8,11 +8,11 @@ from datetime import datetime
 from Python_Testing.tests.mocks import (
     VALID_CLUB_NAME,
     INVALID_CLUB_NAME,
+    INVALID_CLUB_POINTS,
     VALID_COMPETITION_NAME,
     INVALID_COMPETITION_NAME,
-    VALID_COMPETITION_DATE,
+    INVALID_COMPETITION_DATE,
     VALID_COMPETITION_AVAILABLE_PLACES,
-    VALID_CLUB_POINTS,
 )
 
 
@@ -49,10 +49,10 @@ def test_book_invalid_competition(
     """
 
     today = datetime.now().replace(microsecond=0)
-    if VALID_COMPETITION_DATE < str(today):
+    if INVALID_COMPETITION_DATE < str(today):
         response = test_client.get(
             f"/book/{INVALID_COMPETITION_NAME}/{INVALID_CLUB_NAME}"
         )
         assert response.status_code == 200
         assert b"Sorry, but this competition is already over!" in response.data
-        assert f"Points available: {VALID_CLUB_POINTS}" in str(response.data)
+        assert f"Points available: {INVALID_CLUB_POINTS}" in str(response.data)
